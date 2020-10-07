@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 
 public Q_SLOTS:
+    void onOpenImage();
     void onAboutClicked();
     void onAboutQtClicked();
 

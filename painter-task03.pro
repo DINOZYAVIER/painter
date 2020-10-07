@@ -17,10 +17,12 @@ INCLUDEPATH += \
     $$PWD/sources/
 
 SOURCES += \
+    sources/custompainter.cpp \
     sources/main.cpp \
     sources/mainwindow.cpp
 
 HEADERS += \
+    sources/custompainter.h \
     sources/mainwindow.h \
     sources/precompiled.h
 

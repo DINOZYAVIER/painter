@@ -1,5 +1,6 @@
 #include "precompiled.h"
 #include "mainwindow.h"
+#include "custompainter.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow( QWidget *parent )
@@ -10,11 +11,18 @@ MainWindow::MainWindow( QWidget *parent )
 
     connect( m_ui->aAbout, &QAction::triggered, this, &MainWindow::onAboutClicked );
     connect( m_ui->aAboutQt, &QAction::triggered, this, &MainWindow::onAboutQtClicked );
+    connect( m_ui->aOpen, &QAction::triggered, this, &MainWindow::onOpenImage );
+    connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
 }
 
 MainWindow::~MainWindow()
 {
     delete m_ui;
+}
+
+void MainWindow::onOpenImage()
+{
+
 }
 
 void MainWindow::onAboutClicked()
