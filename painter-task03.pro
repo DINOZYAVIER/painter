@@ -2,7 +2,7 @@ QT += core gui widgets
 
 CONFIG += c++11
 
-TARGET = DownloadManager
+TARGET = Painter
 TEMPLATE = app
 
 # Generate make file only for certain build type
@@ -30,6 +30,14 @@ FORMS += \
 win32: PLATFORM = "windows"
 linux: PLATFORM = "linux"
 macx:  PLATFORM = "mac"
+
+CONFIG( debug, debug|release ) {
+    # Debug
+    BUILD_CONFIG = "debug"
+} else {
+    # Release
+    BUILD_CONFIG = "release"
+}
 
 DESTDIR = $$PWD/bin/$${PLATFORM}_$${BUILD_CONFIG}/
 

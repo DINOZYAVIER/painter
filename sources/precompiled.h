@@ -10,6 +10,8 @@
 #include <QAbstractEventDispatcher>
 #include <QSettings>
 #include <QPainter>
+#include <QPixmap>
+#include <QPainterPath>
 #include <QMessageBox>
 #endif
 
