@@ -15,7 +15,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public Q_SLOTS:
+    void onAboutClicked();
+    void onAboutQtClicked();
+
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* m_ui;
 };
 #endif // MAINWINDOW_H

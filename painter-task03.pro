@@ -21,7 +21,8 @@ SOURCES += \
     sources/mainwindow.cpp
 
 HEADERS += \
-    sources/mainwindow.h
+    sources/mainwindow.h \
+    sources/precompiled.h
 
 FORMS += \
     forms/mainwindow.ui
