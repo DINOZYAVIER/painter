@@ -13,6 +13,7 @@
 #include <QPixmap>
 #include <QPainterPath>
 #include <QMessageBox>
+#include <QFileDialog>
 #endif
 
 #endif // PRECOMPILED_H

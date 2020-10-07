@@ -7,6 +7,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class CustomPainter;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -22,5 +24,6 @@ public Q_SLOTS:
 
 private:
     Ui::MainWindow* m_ui;
+    CustomPainter* m_painter;
 };
 #endif // MAINWINDOW_H

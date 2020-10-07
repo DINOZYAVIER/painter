@@ -22,7 +22,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::onOpenImage()
 {
-
+    QString fileName = QFileDialog::getOpenFileName( this,
+        tr( "Open Image" ), QCoreApplication::applicationDirPath(), tr( "Image Files (*.png *.jpg *.bmp)" ) );
+    QPixmap* pixmap = new QPixmap( fileName );
+    m_painter = new CustomPainter( this, pixmap );
 }
 
 void MainWindow::onAboutClicked()
