@@ -21,9 +21,13 @@ public Q_SLOTS:
     void onOpenImage();
     void onAboutClicked();
     void onAboutQtClicked();
+protected:
+    void paintEvent( QPaintEvent* event );
+    void mouseMoveEvent( QMouseEvent *event );
 
 private:
-    Ui::MainWindow* m_ui;
-    CustomPainter* m_painter;
+    Ui::MainWindow*     m_ui;
+    QPoint              m_point;
+    QString             m_filename;
 };
 #endif // MAINWINDOW_H

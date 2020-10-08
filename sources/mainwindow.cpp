@@ -7,7 +7,8 @@ MainWindow::MainWindow( QWidget *parent )
     : QMainWindow( parent )
     , m_ui( new Ui::MainWindow )
 {
-    m_ui->setupUi(this);
+    m_ui->setupUi( this );
+    setMouseTracking( true );
 
     connect( m_ui->aAbout, &QAction::triggered, this, &MainWindow::onAboutClicked );
     connect( m_ui->aAboutQt, &QAction::triggered, this, &MainWindow::onAboutQtClicked );
@@ -22,10 +23,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::onOpenImage()
 {
-    QString fileName = QFileDialog::getOpenFileName( this,
+    m_filename = QFileDialog::getOpenFileName( this,
         tr( "Open Image" ), QCoreApplication::applicationDirPath(), tr( "Image Files (*.png *.jpg *.bmp)" ) );
-    QPixmap* pixmap = new QPixmap( fileName );
-    m_painter = new CustomPainter( this, pixmap );
 }
 
 void MainWindow::onAboutClicked()
@@ -37,4 +36,15 @@ void MainWindow::onAboutClicked()
 void MainWindow::onAboutQtClicked()
 {
     QMessageBox::aboutQt( this, "About Qt" );
+}
+
+void MainWindow::mouseMoveEvent( QMouseEvent* event)
+{
+    m_point = event->pos();
+    update();
+}
+
+void MainWindow::paintEvent( QPaintEvent* event )
+{
+
 }

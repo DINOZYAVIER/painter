@@ -14,6 +14,7 @@
 #include <QPainterPath>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QMouseEvent>
 #endif
 
 #endif // PRECOMPILED_H
