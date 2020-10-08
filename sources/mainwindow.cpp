@@ -19,6 +19,7 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aSave, &QAction::triggered, this, &MainWindow::onSaveImage );
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
     connect( m_ui->paintLabel, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
+    connect( m_ui->paintLabel, &CustomLabel::mousePressed, this, &MainWindow::onPathStarted );
 
     connect( m_ui->aBlack, &QAction::triggered, this, &MainWindow::onColorChanged );
     connect( m_ui->aWhite, &QAction::triggered, this, &MainWindow::onColorChanged );
@@ -32,6 +33,10 @@ MainWindow::~MainWindow()
     delete m_ui;
     delete m_pixmap;
     delete m_label;
+    while( !m_path.isEmpty() )
+    {
+        delete m_path.takeLast();
+    }
 }
 
 void MainWindow::onOpenImage()
@@ -105,23 +110,23 @@ void MainWindow::onPositionChanged( QPoint last, QPoint current )
 
 void MainWindow::onPathStarted()
 {
-    //m_path.append( new QPainterPath );
-    //m_path.last()->moveTo( m_lastPoint );
+    m_path.append( new QPainterPath() );
+    m_path.last()->moveTo( m_currentPoint );
 }
 
 void MainWindow::paintEvent( QPaintEvent* event )
 {
     Q_UNUSED( event );
-    //if( m_pixmap != 0 && !m_path.isEmpty() )
-    if( m_pixmap != 0 )
+    if( m_pixmap != 0 && !m_path.isEmpty() )
+    //if( m_pixmap != 0 )
     {
         QPainter painter( m_pixmap );
 
         painter.setPen( m_color );
 
-        painter.drawLine( m_lastPoint, m_currentPoint );
-        //m_path.last()->lineTo( m_currentPoint );
-        //painter.drawPath( *m_path.last() );
+        //painter.drawLine( m_lastPoint, m_currentPoint );
+        m_path.last()->lineTo( m_currentPoint );
+        painter.drawPath( *m_path.last() );
 
         m_ui->paintLabel->setPixmap( *m_pixmap );
     }

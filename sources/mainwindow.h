@@ -36,6 +36,6 @@ private:
     QPixmap*               m_pixmap;
     CustomLabel*           m_label;
     QColor                 m_color;
-    //QVector<QPainterPath*> m_path;
+    QVector<QPainterPath*> m_path;
 };
 #endif // MAINWINDOW_H
