@@ -1,11 +1,14 @@
 #include "precompiled.h"
 #include "mainwindow.h"
+#include "customlabel.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow( QWidget *parent )
     : QMainWindow( parent )
     , m_ui( new Ui::MainWindow )
     , m_filename( QString() )
+    , m_pixmap( nullptr )
+    , m_label( new CustomLabel( this ) )
 {
     m_ui->setupUi( this );
     setMouseTracking( true );
@@ -14,13 +17,14 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aAboutQt, &QAction::triggered, this, &MainWindow::onAboutQtClicked );
     connect( m_ui->aOpen, &QAction::triggered, this, &MainWindow::onOpenImage );
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
-
-    m_pixmap = nullptr;
+    connect( m_label, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
 }
 
 MainWindow::~MainWindow()
 {
     delete m_ui;
+    delete m_pixmap;
+    delete m_label;
 }
 
 void MainWindow::onOpenImage()
@@ -42,22 +46,35 @@ void MainWindow::onAboutQtClicked()
     QMessageBox::aboutQt( this, "About Qt" );
 }
 
+void MainWindow::onPositionChanged( QPoint last, QPoint current )
+{
+    m_lastPoint = last;
+    m_currentPoint = current;
+    qDebug() << last << current;
+}
+
 void MainWindow::mouseMoveEvent( QMouseEvent* event)
 {
-    if( m_lastPoint == QPoint( 0, 0 ) && m_currentPoint == QPoint( 0, 0 ))
-        m_lastPoint = m_currentPoint = event->pos();
+    /*
+    if( m_lastPoint == QPoint( 0, 0 ) && m_currentPoint == QPoint( 0, 0 ) )
+    {
+        m_lastPoint = m_currentPoint = m_ui->paintLabel->mapToParent( event->pos() );
+    }
     else
     {
         m_lastPoint = m_currentPoint;
-        m_currentPoint = event->pos();
+        m_currentPoint = m_ui->paintLabel->mapToParent( event->pos() );
     }
     update();
+    */
 }
 
 void MainWindow::mouseReleaseEvent( QMouseEvent *event )
 {
+    /*
     Q_UNUSED( event );
     m_lastPoint = m_currentPoint = QPoint( 0, 0 );
+    */
 }
 
 void MainWindow::paintEvent( QPaintEvent* event )
