@@ -103,15 +103,25 @@ void MainWindow::onPositionChanged( QPoint last, QPoint current )
     m_currentPoint = current;
 }
 
+void MainWindow::onPathStarted()
+{
+    //m_path.append( new QPainterPath );
+    //m_path.last()->moveTo( m_lastPoint );
+}
+
 void MainWindow::paintEvent( QPaintEvent* event )
 {
     Q_UNUSED( event );
+    //if( m_pixmap != 0 && !m_path.isEmpty() )
     if( m_pixmap != 0 )
     {
         QPainter painter( m_pixmap );
+
         painter.setPen( m_color );
 
         painter.drawLine( m_lastPoint, m_currentPoint );
+        //m_path.last()->lineTo( m_currentPoint );
+        //painter.drawPath( *m_path.last() );
 
         m_ui->paintLabel->setPixmap( *m_pixmap );
     }

@@ -24,16 +24,18 @@ public Q_SLOTS:
     void onAboutQtClicked();
     void onPositionChanged( QPoint last, QPoint current );
     void onColorChanged();
+    void onPathStarted();
 protected:
     void paintEvent( QPaintEvent* event );
 
 private:
-    Ui::MainWindow*     m_ui;
-    QPoint              m_lastPoint;
-    QPoint              m_currentPoint;
-    QString             m_filename;
-    QPixmap*            m_pixmap;
-    CustomLabel*        m_label;
-    QColor              m_color;
+    Ui::MainWindow*        m_ui;
+    QPoint                 m_lastPoint;
+    QPoint                 m_currentPoint;
+    QString                m_filename;
+    QPixmap*               m_pixmap;
+    CustomLabel*           m_label;
+    QColor                 m_color;
+    //QVector<QPainterPath*> m_path;
 };
 #endif // MAINWINDOW_H

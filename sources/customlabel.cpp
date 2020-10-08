@@ -10,7 +10,7 @@ CustomLabel::~CustomLabel()
 {
 }
 
-void CustomLabel::mouseMoveEvent( QMouseEvent *event )
+void CustomLabel::mouseMoveEvent( QMouseEvent* event )
 {
     if( m_lastPoint == QPoint( 0, 0 ) && m_currentPoint == QPoint( 0, 0 ) )
     {
@@ -24,7 +24,14 @@ void CustomLabel::mouseMoveEvent( QMouseEvent *event )
     Q_EMIT positionChanged( m_lastPoint, m_currentPoint );
 }
 
-void CustomLabel::mouseReleaseEvent( QMouseEvent *event )
+void CustomLabel::mousePressEvent( QMouseEvent* event )
+{
+    m_lastPoint = m_currentPoint = event->pos();
+//    Q_EMIT positionChanged( m_lastPoint, m_currentPoint );
+    Q_EMIT mousePressed();
+}
+
+void CustomLabel::mouseReleaseEvent( QMouseEvent* event )
 {
     Q_UNUSED( event );
     m_lastPoint = m_currentPoint = QPoint( 0, 0 );
