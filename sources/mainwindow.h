@@ -22,6 +22,7 @@ public Q_SLOTS:
     void onAboutClicked();
     void onAboutQtClicked();
     void onPositionChanged( QPoint last, QPoint current );
+    void onColorChanged();
 protected:
     void paintEvent( QPaintEvent* event );
 
@@ -32,5 +33,6 @@ private:
     QString             m_filename;
     QPixmap*            m_pixmap;
     CustomLabel*        m_label;
+    QColor              m_color;
 };
 #endif // MAINWINDOW_H

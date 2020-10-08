@@ -1,6 +1,5 @@
 #include "precompiled.h"
 #include "customlabel.h"
-//#include "ui_customlabel.h"
 
 CustomLabel::CustomLabel( QWidget* parent ) :
     QLabel( parent )
@@ -22,7 +21,6 @@ void CustomLabel::mouseMoveEvent( QMouseEvent *event )
         m_lastPoint = m_currentPoint;
         m_currentPoint = event->pos();
     }
-    update();
     Q_EMIT positionChanged( m_lastPoint, m_currentPoint );
 }
 

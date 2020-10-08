@@ -17,8 +17,14 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="CustomLabel" name="paintLabel">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string/>
       </property>
      </widget>
     </item>
@@ -44,6 +50,17 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <widget class="QMenu" name="menuSet_color">
+     <property name="title">
+      <string>Set color</string>
+     </property>
+     <addaction name="aBlack"/>
+     <addaction name="aWhite"/>
+     <addaction name="aRed"/>
+     <addaction name="aGreen"/>
+     <addaction name="aBlue"/>
+    </widget>
+    <addaction name="menuSet_color"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -75,6 +92,31 @@
   <action name="aClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="aBlack">
+   <property name="text">
+    <string>Black</string>
+   </property>
+  </action>
+  <action name="aWhite">
+   <property name="text">
+    <string>White</string>
+   </property>
+  </action>
+  <action name="aRed">
+   <property name="text">
+    <string>Red</string>
+   </property>
+  </action>
+  <action name="aGreen">
+   <property name="text">
+    <string>Green</string>
+   </property>
+  </action>
+  <action name="aBlue">
+   <property name="text">
+    <string>Blue</string>
    </property>
   </action>
  </widget>
