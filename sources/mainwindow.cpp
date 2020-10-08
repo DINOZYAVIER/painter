@@ -1,11 +1,11 @@
 #include "precompiled.h"
 #include "mainwindow.h"
-#include "custompainter.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow( QWidget *parent )
     : QMainWindow( parent )
     , m_ui( new Ui::MainWindow )
+    , m_filename( QString() )
 {
     m_ui->setupUi( this );
     setMouseTracking( true );
@@ -14,6 +14,8 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aAboutQt, &QAction::triggered, this, &MainWindow::onAboutQtClicked );
     connect( m_ui->aOpen, &QAction::triggered, this, &MainWindow::onOpenImage );
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
+
+    m_pixmap = nullptr;
 }
 
 MainWindow::~MainWindow()
@@ -25,6 +27,8 @@ void MainWindow::onOpenImage()
 {
     m_filename = QFileDialog::getOpenFileName( this,
         tr( "Open Image" ), QCoreApplication::applicationDirPath(), tr( "Image Files (*.png *.jpg *.bmp)" ) );
+    m_pixmap = new QPixmap( m_filename );
+    update();
 }
 
 void MainWindow::onAboutClicked()
@@ -40,11 +44,34 @@ void MainWindow::onAboutQtClicked()
 
 void MainWindow::mouseMoveEvent( QMouseEvent* event)
 {
-    m_point = event->pos();
+    if( m_lastPoint == QPoint( 0, 0 ) && m_currentPoint == QPoint( 0, 0 ))
+        m_lastPoint = m_currentPoint = event->pos();
+    else
+    {
+        m_lastPoint = m_currentPoint;
+        m_currentPoint = event->pos();
+    }
     update();
+}
+
+void MainWindow::mouseReleaseEvent( QMouseEvent *event )
+{
+    Q_UNUSED( event );
+    m_lastPoint = m_currentPoint = QPoint( 0, 0 );
 }
 
 void MainWindow::paintEvent( QPaintEvent* event )
 {
+    Q_UNUSED( event );
+    if( m_pixmap != 0 )
+    {
+        QPainter painter( m_pixmap );
+        painter.setPen( QColor( 0, 0, 0, 255 ) );
 
+        painter.drawLine( m_lastPoint, m_currentPoint );
+
+        m_ui->paintLabel->setPixmap( m_pixmap->scaled( m_ui->paintLabel->width(),
+                                                      m_ui->paintLabel->height(),
+                                                      Qt::KeepAspectRatio ) );
+    }
 }
