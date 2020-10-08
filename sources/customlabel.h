@@ -3,11 +3,7 @@
 
 #include <QLabel>
 
-namespace Ui {
-class CustomLabel;
-}
-
-class CustomLabel : public QWidget
+class CustomLabel : public QLabel
 {
     Q_OBJECT
 
@@ -19,7 +15,6 @@ public:
 Q_SIGNALS:
     void positionChanged( QPoint last, QPoint current );
 private:
-    Ui::CustomLabel*    m_ui;
     QPoint              m_lastPoint;
     QPoint              m_currentPoint;
 };

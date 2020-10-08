@@ -24,8 +24,6 @@ public Q_SLOTS:
     void onPositionChanged( QPoint last, QPoint current );
 protected:
     void paintEvent( QPaintEvent* event );
-    void mouseMoveEvent( QMouseEvent *event );
-    void mouseReleaseEvent( QMouseEvent *event );
 
 private:
     Ui::MainWindow*     m_ui;

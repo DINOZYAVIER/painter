@@ -16,7 +16,7 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aAboutQt, &QAction::triggered, this, &MainWindow::onAboutQtClicked );
     connect( m_ui->aOpen, &QAction::triggered, this, &MainWindow::onOpenImage );
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
-    //connect( m_ui->paintLabel, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
+    connect( m_ui->paintLabel, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
 }
 
 MainWindow::~MainWindow()
@@ -31,6 +31,7 @@ void MainWindow::onOpenImage()
     m_filename = QFileDialog::getOpenFileName( this,
         tr( "Open Image" ), QCoreApplication::applicationDirPath(), tr( "Image Files (*.png *.jpg *.bmp)" ) );
     m_pixmap = new QPixmap( m_filename );
+    m_ui->paintLabel->setPixmap( *m_pixmap );
     update();
 }
 
@@ -52,30 +53,6 @@ void MainWindow::onPositionChanged( QPoint last, QPoint current )
     qDebug() << last << current;
 }
 
-void MainWindow::mouseMoveEvent( QMouseEvent* event)
-{
-    /*
-    if( m_lastPoint == QPoint( 0, 0 ) && m_currentPoint == QPoint( 0, 0 ) )
-    {
-        m_lastPoint = m_currentPoint = m_ui->paintLabel->mapToParent( event->pos() );
-    }
-    else
-    {
-        m_lastPoint = m_currentPoint;
-        m_currentPoint = m_ui->paintLabel->mapToParent( event->pos() );
-    }
-    update();
-    */
-}
-
-void MainWindow::mouseReleaseEvent( QMouseEvent *event )
-{
-    /*
-    Q_UNUSED( event );
-    m_lastPoint = m_currentPoint = QPoint( 0, 0 );
-    */
-}
-
 void MainWindow::paintEvent( QPaintEvent* event )
 {
     Q_UNUSED( event );
@@ -86,8 +63,6 @@ void MainWindow::paintEvent( QPaintEvent* event )
 
         painter.drawLine( m_lastPoint, m_currentPoint );
 
-        /*m_ui->paintLabel->setPixmap( m_pixmap->scaled( m_ui->paintLabel->width(),
-                                                      m_ui->paintLabel->height(),
-                                                      Qt::KeepAspectRatio ) );*/
+        m_ui->paintLabel->setPixmap( *m_pixmap );
     }
 }

@@ -27,7 +27,6 @@ HEADERS += \
     sources/precompiled.h
 
 FORMS += \
-    forms/customlabel.ui \
     forms/mainwindow.ui
 
 win32: PLATFORM = "windows"

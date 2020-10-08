@@ -1,17 +1,14 @@
 #include "precompiled.h"
 #include "customlabel.h"
-#include "ui_customlabel.h"
+//#include "ui_customlabel.h"
 
-CustomLabel::CustomLabel( QWidget *parent ) :
-    QWidget( parent ),
-    m_ui( new Ui::CustomLabel )
+CustomLabel::CustomLabel( QWidget* parent ) :
+    QLabel( parent )
 {
-    m_ui->setupUi( this );
 }
 
 CustomLabel::~CustomLabel()
 {
-    delete m_ui;
 }
 
 void CustomLabel::mouseMoveEvent( QMouseEvent *event )
@@ -35,3 +32,5 @@ void CustomLabel::mouseReleaseEvent( QMouseEvent *event )
     m_lastPoint = m_currentPoint = QPoint( 0, 0 );
     Q_EMIT positionChanged( m_lastPoint, m_currentPoint );
 }
+
+
