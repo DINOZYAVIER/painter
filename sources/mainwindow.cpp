@@ -8,7 +8,6 @@ MainWindow::MainWindow( QWidget *parent )
     , m_ui( new Ui::MainWindow )
     , m_filename( QString() )
     , m_pixmap( nullptr )
-    , m_label( new CustomLabel( this ) )
 {
     m_ui->setupUi( this );
     setMouseTracking( true );
@@ -17,7 +16,7 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aAboutQt, &QAction::triggered, this, &MainWindow::onAboutQtClicked );
     connect( m_ui->aOpen, &QAction::triggered, this, &MainWindow::onOpenImage );
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
-    connect( m_label, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
+    //connect( m_ui->paintLabel, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
 }
 
 MainWindow::~MainWindow()
@@ -87,8 +86,8 @@ void MainWindow::paintEvent( QPaintEvent* event )
 
         painter.drawLine( m_lastPoint, m_currentPoint );
 
-        m_ui->paintLabel->setPixmap( m_pixmap->scaled( m_ui->paintLabel->width(),
+        /*m_ui->paintLabel->setPixmap( m_pixmap->scaled( m_ui->paintLabel->width(),
                                                       m_ui->paintLabel->height(),
-                                                      Qt::KeepAspectRatio ) );
+                                                      Qt::KeepAspectRatio ) );*/
     }
 }

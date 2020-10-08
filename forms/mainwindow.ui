@@ -16,11 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="paintLabel">
-      <property name="text">
-       <string>Text</string>
-      </property>
-     </widget>
+     <widget class="CustomLabel" name="widget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -78,6 +74,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomLabel</class>
+   <extends>QWidget</extends>
+   <header>customlabel.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

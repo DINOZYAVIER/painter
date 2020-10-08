@@ -18,17 +18,16 @@ INCLUDEPATH += \
 
 SOURCES += \
     sources/customlabel.cpp \
-    sources/custompainter.cpp \
     sources/main.cpp \
     sources/mainwindow.cpp
 
 HEADERS += \
     sources/customlabel.h \
-    sources/custompainter.h \
     sources/mainwindow.h \
     sources/precompiled.h
 
 FORMS += \
+    forms/customlabel.ui \
     forms/mainwindow.ui
 
 win32: PLATFORM = "windows"
