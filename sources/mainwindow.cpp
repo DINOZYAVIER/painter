@@ -16,6 +16,7 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aAbout, &QAction::triggered, this, &MainWindow::onAboutClicked );
     connect( m_ui->aAboutQt, &QAction::triggered, this, &MainWindow::onAboutQtClicked );
     connect( m_ui->aOpen, &QAction::triggered, this, &MainWindow::onOpenImage );
+    connect( m_ui->aSave, &QAction::triggered, this, &MainWindow::onSaveImage );
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
     connect( m_ui->paintLabel, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
 
@@ -41,6 +42,13 @@ void MainWindow::onOpenImage()
     //m_ui->paintLabel->setPixmapField( m_pixmap );
     m_ui->paintLabel->setPixmap( *m_pixmap );
     update();
+}
+
+void MainWindow::onSaveImage()
+{
+    m_pixmap->save( m_filename );
+    delete m_pixmap;
+    m_pixmap = nullptr;
 }
 
 void MainWindow::onAboutClicked()

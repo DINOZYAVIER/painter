@@ -19,6 +19,7 @@ public:
 
 public Q_SLOTS:
     void onOpenImage();
+    void onSaveImage();
     void onAboutClicked();
     void onAboutQtClicked();
     void onPositionChanged( QPoint last, QPoint current );
