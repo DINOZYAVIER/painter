@@ -25,6 +25,8 @@ public Q_SLOTS:
     void onPositionChanged( QPoint last, QPoint current );
     void onColorChanged();
     void onPathStarted();
+    void onUndo();
+    void onRedo();
     void onClearAll();
     void onShowAll();
 protected:
@@ -40,5 +42,6 @@ private:
     QColor                 m_color;
     QVector<QPainterPath*> m_path;
     bool                   m_showFlag;
+    int                    m_currentPath;
 };
 #endif // MAINWINDOW_H

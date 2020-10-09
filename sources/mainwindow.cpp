@@ -118,17 +118,30 @@ void MainWindow::onPathStarted()
 {
     m_path.append( new QPainterPath() );
     m_path.last()->moveTo( m_currentPoint );
+    ++m_currentPath;
     update();
 }
 
 void MainWindow::onUndo()
 {
-
+    if( m_path.size() == 0 )
+        return;
+    if( m_currentPath > 0 )
+        --m_currentPath;
+    else
+        m_currentPath = m_path.size() - 2;
+    delete m_pixmap;
+    m_pixmap = new QPixmap( m_filename );
+    qDebug() << "undo" << m_currentPath;
 }
 
 void MainWindow::onRedo()
 {
-
+    if( m_currentPath < m_path.size() )
+        ++m_currentPath;
+    delete m_pixmap;
+    m_pixmap = new QPixmap( m_filename );
+    qDebug() << "redo" << m_currentPath;
 }
 
 void MainWindow::onClearAll()
@@ -166,7 +179,8 @@ void MainWindow::paintEvent( QPaintEvent* event )
         painter.setPen( m_color );
 
         m_path.last()->lineTo( m_currentPoint );
-        painter.drawPath( *m_path.last() );
+        for( int i = 0; i < m_currentPath; ++i )
+            painter.drawPath( *m_path.at( i ) );
     }
     m_ui->paintLabel->setPixmap( *m_pixmap );
 
