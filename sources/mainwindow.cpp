@@ -39,7 +39,6 @@ MainWindow::~MainWindow()
 {
     delete m_ui;
     delete m_pixmap;
-    delete m_label;
     while( !m_path.isEmpty() )
     {
         delete m_path.takeLast();
@@ -116,7 +115,7 @@ void MainWindow::onPositionChanged( QPoint last, QPoint current )
 
 void MainWindow::onPathStarted()
 {
-    qDebug() << "path started" << m_currentPath << m_path.size();
+    qDebug() << "Path started";
     if( m_currentPath < m_path.size() )
     {
         int var = m_path.size() - m_currentPath;
@@ -139,7 +138,7 @@ void MainWindow::onUndo()
         m_currentPath = m_path.size() - 2;
     delete m_pixmap;
     m_pixmap = new QPixmap( m_filename );
-    qDebug() << "undo" << m_currentPath;
+    qDebug() << "Undo, current path:" << m_currentPath;
 }
 
 void MainWindow::onRedo()
@@ -149,7 +148,7 @@ void MainWindow::onRedo()
     ++m_currentPath;
     delete m_pixmap;
     m_pixmap = new QPixmap( m_filename );
-    qDebug() << "redo" << m_currentPath;
+    qDebug() << "Redo, current path:" << m_currentPath;
 }
 
 void MainWindow::onClearAll()

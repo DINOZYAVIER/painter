@@ -7,8 +7,6 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class CustomLabel;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -38,7 +36,6 @@ private:
     QPoint                 m_currentPoint;
     QString                m_filename;
     QPixmap*               m_pixmap;
-    CustomLabel*           m_label;
     QColor                 m_color;
     QVector<QPainterPath*> m_path;
     bool                   m_showFlag;
