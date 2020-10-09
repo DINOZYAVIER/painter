@@ -116,6 +116,13 @@ void MainWindow::onPositionChanged( QPoint last, QPoint current )
 
 void MainWindow::onPathStarted()
 {
+    qDebug() << "path started" << m_currentPath << m_path.size();
+    if( m_currentPath < m_path.size() )
+    {
+        int var = m_path.size() - m_currentPath;
+        while( var-- )
+            delete m_path.takeLast();
+    }
     m_path.append( new QPainterPath() );
     m_path.last()->moveTo( m_currentPoint );
     ++m_currentPath;
@@ -124,7 +131,7 @@ void MainWindow::onPathStarted()
 
 void MainWindow::onUndo()
 {
-    if( m_path.size() == 0 )
+    if( m_path.size() == 0 || m_currentPath == 0 )
         return;
     if( m_currentPath > 0 )
         --m_currentPath;
@@ -137,8 +144,9 @@ void MainWindow::onUndo()
 
 void MainWindow::onRedo()
 {
-    if( m_currentPath < m_path.size() )
-        ++m_currentPath;
+    if( m_currentPath == m_path.size() )
+        return;
+    ++m_currentPath;
     delete m_pixmap;
     m_pixmap = new QPixmap( m_filename );
     qDebug() << "redo" << m_currentPath;
