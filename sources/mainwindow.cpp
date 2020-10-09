@@ -33,6 +33,8 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aRed, &QAction::triggered, this, &MainWindow::onColorChanged );
     connect( m_ui->aGreen, &QAction::triggered, this, &MainWindow::onColorChanged );
     connect( m_ui->aBlue, &QAction::triggered, this, &MainWindow::onColorChanged );
+
+    m_ui->paintLabel->setAlignment( Qt::AlignLeft );
 }
 
 MainWindow::~MainWindow()
