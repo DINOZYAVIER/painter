@@ -25,6 +25,8 @@ public Q_SLOTS:
     void onPositionChanged( QPoint last, QPoint current );
     void onColorChanged();
     void onPathStarted();
+    void onClearAll();
+    void onShowAll();
 protected:
     void paintEvent( QPaintEvent* event );
 
@@ -37,5 +39,6 @@ private:
     CustomLabel*           m_label;
     QColor                 m_color;
     QVector<QPainterPath*> m_path;
+    bool                   m_showFlag;
 };
 #endif // MAINWINDOW_H

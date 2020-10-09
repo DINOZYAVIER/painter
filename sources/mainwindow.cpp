@@ -9,6 +9,7 @@ MainWindow::MainWindow( QWidget *parent )
     , m_filename( QString() )
     , m_pixmap( nullptr )
     , m_color( QColor() )
+    , m_showFlag( true )
 {
     m_ui->setupUi( this );
     setMouseTracking( true );
@@ -20,6 +21,8 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
     connect( m_ui->paintLabel, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
     connect( m_ui->paintLabel, &CustomLabel::mousePressed, this, &MainWindow::onPathStarted );
+    connect( m_ui->aClearAll, &QAction::triggered, this, &MainWindow::onClearAll );
+    connect( m_ui->aShowAll, &QAction::triggered, this, &MainWindow::onShowAll );
 
     connect( m_ui->aBlack, &QAction::triggered, this, &MainWindow::onColorChanged );
     connect( m_ui->aWhite, &QAction::triggered, this, &MainWindow::onColorChanged );
@@ -44,7 +47,6 @@ void MainWindow::onOpenImage()
     m_filename = QFileDialog::getOpenFileName( this,
         tr( "Open Image" ), QCoreApplication::applicationDirPath(), tr( "Image Files (*.png *.jpg *.bmp)" ) );
     m_pixmap = new QPixmap( m_filename );
-    //m_ui->paintLabel->setPixmapField( m_pixmap );
     m_ui->paintLabel->setPixmap( *m_pixmap );
     update();
 }
@@ -112,22 +114,46 @@ void MainWindow::onPathStarted()
 {
     m_path.append( new QPainterPath() );
     m_path.last()->moveTo( m_currentPoint );
+    update();
+}
+
+void MainWindow::onClearAll()
+{
+    delete m_pixmap;
+    m_pixmap = new QPixmap( m_filename );
+    m_showFlag = false;
+    update();
+}
+
+void MainWindow::onShowAll()
+{
+    QPainter painter( m_pixmap );
+    m_showFlag = true;
+
+    painter.setPen( m_color );
+
+    foreach( auto item, m_path )
+        painter.drawPath( *item );
+
+    m_ui->paintLabel->setPixmap( *m_pixmap );
+    update();
 }
 
 void MainWindow::paintEvent( QPaintEvent* event )
 {
     Q_UNUSED( event );
-    if( m_pixmap != 0 && !m_path.isEmpty() )
-    //if( m_pixmap != 0 )
+    if( m_pixmap == 0 || m_path.isEmpty() )
+        return;
+
+    if( m_showFlag )
     {
         QPainter painter( m_pixmap );
 
         painter.setPen( m_color );
 
-        //painter.drawLine( m_lastPoint, m_currentPoint );
         m_path.last()->lineTo( m_currentPoint );
         painter.drawPath( *m_path.last() );
-
-        m_ui->paintLabel->setPixmap( *m_pixmap );
     }
+    m_ui->paintLabel->setPixmap( *m_pixmap );
+
 }
