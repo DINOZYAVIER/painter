@@ -35,6 +35,11 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aBlue, &QAction::triggered, this, &MainWindow::onColorChanged );
 
     m_ui->paintLabel->setAlignment( Qt::AlignLeft );
+    m_ui->aUndo->setEnabled( false );
+    m_ui->aRedo->setEnabled( false );
+    m_ui->aClearAll->setEnabled( false );
+    m_ui->aShowAll->setEnabled( false );
+
 }
 
 MainWindow::~MainWindow()
@@ -54,6 +59,11 @@ void MainWindow::onOpenImage()
     m_pixmap = new QPixmap( m_filename );
     m_ui->paintLabel->setPixmap( *m_pixmap );
     update();
+
+    m_ui->aUndo->setEnabled( true );
+    m_ui->aRedo->setEnabled( true );
+    m_ui->aClearAll->setEnabled( true );
+    m_ui->aShowAll->setEnabled( true );
 }
 
 void MainWindow::onSaveImage()
