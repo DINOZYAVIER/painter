@@ -10,6 +10,7 @@ MainWindow::MainWindow( QWidget *parent )
     , m_pixmap( nullptr )
     , m_color( QColor() )
     , m_showFlag( true )
+    , m_currentPath ( 0 )
 {
     m_ui->setupUi( this );
     setMouseTracking( true );
@@ -21,6 +22,9 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aClose, &QAction::triggered, this, &MainWindow::close );
     connect( m_ui->paintLabel, &CustomLabel::positionChanged, this, &MainWindow::onPositionChanged );
     connect( m_ui->paintLabel, &CustomLabel::mousePressed, this, &MainWindow::onPathStarted );
+
+    connect( m_ui->aUndo, &QAction::triggered, this, &MainWindow::onUndo );
+    connect( m_ui->aRedo, &QAction::triggered, this, &MainWindow::onRedo );
     connect( m_ui->aClearAll, &QAction::triggered, this, &MainWindow::onClearAll );
     connect( m_ui->aShowAll, &QAction::triggered, this, &MainWindow::onShowAll );
 
@@ -117,6 +121,16 @@ void MainWindow::onPathStarted()
     update();
 }
 
+void MainWindow::onUndo()
+{
+
+}
+
+void MainWindow::onRedo()
+{
+
+}
+
 void MainWindow::onClearAll()
 {
     delete m_pixmap;
@@ -127,8 +141,8 @@ void MainWindow::onClearAll()
 
 void MainWindow::onShowAll()
 {
-    QPainter painter( m_pixmap );
     m_showFlag = true;
+    QPainter painter( m_pixmap );
 
     painter.setPen( m_color );
 
