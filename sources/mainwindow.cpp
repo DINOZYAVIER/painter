@@ -38,17 +38,11 @@ MainWindow::MainWindow( QWidget *parent )
     m_ui->aRedo->setEnabled( false );
     m_ui->aClearAll->setEnabled( false );
     m_ui->aShowAll->setEnabled( false );
-
 }
 
 MainWindow::~MainWindow()
 {
     delete m_ui;
-    //delete m_pixmap;
-    while( !m_path.isEmpty() )
-    {
-        delete m_path.takeLast();
-    }
 }
 
 void MainWindow::onOpenImage()
@@ -68,8 +62,6 @@ void MainWindow::onOpenImage()
 void MainWindow::onSaveImage()
 {
     m_pixmap.save( m_filename );
-    //delete m_pixmap;
-    //m_pixmap = nullptr;
 }
 
 void MainWindow::onAboutClicked()
@@ -131,10 +123,10 @@ void MainWindow::onPathStarted()
     {
         int var = m_path.size() - m_currentPath;
         while( var-- )
-            delete m_path.takeLast();
+            m_path.takeLast();
     }
-    m_path.append( new QPainterPath() );
-    m_path.last()->moveTo( m_currentPoint );
+    m_path.append( QPainterPath() );
+    m_path.last().moveTo( m_currentPoint );
     ++m_currentPath;
     update();
 }
@@ -147,7 +139,6 @@ void MainWindow::onUndo()
         --m_currentPath;
     else
         m_currentPath = m_path.size() - 2;
-    //delete m_pixmap;
     m_pixmap = QPixmap( m_filename );
     qDebug() << "Undo, current path:" << m_currentPath;
 }
@@ -176,7 +167,7 @@ void MainWindow::onShowAll()
     painter.setPen( m_color );
 
     foreach( auto item, m_path )
-        painter.drawPath( *item );
+        painter.drawPath( item );
 
     m_ui->paintLabel->setPixmap( m_pixmap );
     update();
@@ -194,9 +185,9 @@ void MainWindow::paintEvent( QPaintEvent* event )
 
         painter.setPen( m_color );
 
-        m_path.last()->lineTo( m_currentPoint );
+        m_path.last().lineTo( m_currentPoint );
         for( int i = 0; i < m_currentPath; ++i )
-            painter.drawPath( *m_path.at( i ) );
+            painter.drawPath( m_path.at( i ) );
     }
     m_ui->paintLabel->setPixmap( m_pixmap );
 

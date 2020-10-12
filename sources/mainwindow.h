@@ -37,7 +37,7 @@ private:
     QString                m_filename;
     QPixmap                m_pixmap;
     QColor                 m_color;
-    QVector<QPainterPath*> m_path;
+    QVector<QPainterPath> m_path;
     bool                   m_showFlag;
     int                    m_currentPath;
 };
