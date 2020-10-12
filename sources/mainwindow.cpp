@@ -7,7 +7,6 @@ MainWindow::MainWindow( QWidget *parent )
     : QMainWindow( parent )
     , m_ui( new Ui::MainWindow )
     , m_filename( QString() )
-    , m_pixmap( nullptr )
     , m_color( QColor() )
     , m_showFlag( true )
     , m_currentPath ( 0 )
@@ -45,7 +44,7 @@ MainWindow::MainWindow( QWidget *parent )
 MainWindow::~MainWindow()
 {
     delete m_ui;
-    delete m_pixmap;
+    //delete m_pixmap;
     while( !m_path.isEmpty() )
     {
         delete m_path.takeLast();
@@ -56,8 +55,8 @@ void MainWindow::onOpenImage()
 {
     m_filename = QFileDialog::getOpenFileName( this,
         tr( "Open Image" ), QCoreApplication::applicationDirPath(), tr( "Image Files (*.png *.jpg *.bmp)" ) );
-    m_pixmap = new QPixmap( m_filename );
-    m_ui->paintLabel->setPixmap( *m_pixmap );
+    m_pixmap = QPixmap( m_filename );
+    m_ui->paintLabel->setPixmap( m_pixmap );
     update();
 
     m_ui->aUndo->setEnabled( true );
@@ -68,9 +67,9 @@ void MainWindow::onOpenImage()
 
 void MainWindow::onSaveImage()
 {
-    m_pixmap->save( m_filename );
-    delete m_pixmap;
-    m_pixmap = nullptr;
+    m_pixmap.save( m_filename );
+    //delete m_pixmap;
+    //m_pixmap = nullptr;
 }
 
 void MainWindow::onAboutClicked()
@@ -148,8 +147,8 @@ void MainWindow::onUndo()
         --m_currentPath;
     else
         m_currentPath = m_path.size() - 2;
-    delete m_pixmap;
-    m_pixmap = new QPixmap( m_filename );
+    //delete m_pixmap;
+    m_pixmap = QPixmap( m_filename );
     qDebug() << "Undo, current path:" << m_currentPath;
 }
 
@@ -158,15 +157,13 @@ void MainWindow::onRedo()
     if( m_currentPath == m_path.size() )
         return;
     ++m_currentPath;
-    delete m_pixmap;
-    m_pixmap = new QPixmap( m_filename );
+    m_pixmap = QPixmap( m_filename );
     qDebug() << "Redo, current path:" << m_currentPath;
 }
 
 void MainWindow::onClearAll()
 {
-    delete m_pixmap;
-    m_pixmap = new QPixmap( m_filename );
+    m_pixmap = QPixmap( m_filename );
     m_showFlag = false;
     update();
 }
@@ -174,26 +171,26 @@ void MainWindow::onClearAll()
 void MainWindow::onShowAll()
 {
     m_showFlag = true;
-    QPainter painter( m_pixmap );
+    QPainter painter( &m_pixmap );
 
     painter.setPen( m_color );
 
     foreach( auto item, m_path )
         painter.drawPath( *item );
 
-    m_ui->paintLabel->setPixmap( *m_pixmap );
+    m_ui->paintLabel->setPixmap( m_pixmap );
     update();
 }
 
 void MainWindow::paintEvent( QPaintEvent* event )
 {
     Q_UNUSED( event );
-    if( m_pixmap == 0 || m_path.isEmpty() )
+    if( m_path.isEmpty() )
         return;
 
     if( m_showFlag )
     {
-        QPainter painter( m_pixmap );
+        QPainter painter( &m_pixmap );
 
         painter.setPen( m_color );
 
@@ -201,6 +198,6 @@ void MainWindow::paintEvent( QPaintEvent* event )
         for( int i = 0; i < m_currentPath; ++i )
             painter.drawPath( *m_path.at( i ) );
     }
-    m_ui->paintLabel->setPixmap( *m_pixmap );
+    m_ui->paintLabel->setPixmap( m_pixmap );
 
 }

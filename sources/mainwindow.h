@@ -35,7 +35,7 @@ private:
     QPoint                 m_lastPoint;
     QPoint                 m_currentPoint;
     QString                m_filename;
-    QPixmap*               m_pixmap;
+    QPixmap                m_pixmap;
     QColor                 m_color;
     QVector<QPainterPath*> m_path;
     bool                   m_showFlag;
