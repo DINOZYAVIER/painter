@@ -43,6 +43,7 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_penColorGroup, &QActionGroup::triggered, this, &MainWindow::onColorChanged );
 
     m_ui->paintLabel->setAlignment( Qt::AlignLeft );
+    m_ui->aSave->setEnabled( false );
     m_ui->aUndo->setEnabled( false );
     m_ui->aRedo->setEnabled( false );
     m_ui->aClearAll->setEnabled( false );
@@ -62,15 +63,14 @@ void MainWindow::onOpenImage()
     m_ui->paintLabel->setPixmap( m_pixmap );
     update();
 
-    m_ui->aUndo->setEnabled( true );
-    m_ui->aRedo->setEnabled( true );
-    m_ui->aClearAll->setEnabled( true );
-    m_ui->aShowAll->setEnabled( true );
+    m_ui->aSave->setEnabled( true );
+    checkActions();
 }
 
 void MainWindow::onSaveImage()
 {
     m_pixmap.save( m_filename );
+    m_ui->aSave->setEnabled( false );
 }
 
 void MainWindow::onAboutClicked()
@@ -128,6 +128,7 @@ void MainWindow::onPositionChanged( QPoint last, QPoint current )
 void MainWindow::onPathStarted()
 {
     qDebug() << "Path started";
+    m_showFlag = true;
     if( m_currentPath < m_path.size() )
     {
         int var = m_path.size() - m_currentPath;
@@ -137,6 +138,7 @@ void MainWindow::onPathStarted()
     m_path.append( QPainterPath() );
     m_path.last().moveTo( m_currentPoint );
     ++m_currentPath;
+    checkActions();
     update();
 }
 
@@ -149,6 +151,7 @@ void MainWindow::onUndo()
     else
         m_currentPath = m_path.size() - 2;
     m_pixmap = QPixmap( m_filename );
+    checkActions();
     qDebug() << "Undo, current path:" << m_currentPath;
 }
 
@@ -158,6 +161,7 @@ void MainWindow::onRedo()
         return;
     ++m_currentPath;
     m_pixmap = QPixmap( m_filename );
+    checkActions();
     qDebug() << "Redo, current path:" << m_currentPath;
 }
 
@@ -165,11 +169,13 @@ void MainWindow::onClearAll()
 {
     m_pixmap = QPixmap( m_filename );
     m_showFlag = false;
+    checkActions();
     update();
 }
 
 void MainWindow::onShowAll()
 {
+    checkActions();
     m_showFlag = true;
     QPainter painter( &m_pixmap );
 
@@ -199,4 +205,27 @@ void MainWindow::paintEvent( QPaintEvent* event )
             painter.drawPath( m_path.at( i ) );
     }
     m_ui->paintLabel->setPixmap( m_pixmap );
+}
+
+void MainWindow::checkActions()
+{
+    if( m_currentPath == 0 )
+        m_ui->aUndo->setEnabled( false );
+    else
+        m_ui->aUndo->setEnabled( true );
+    if( m_currentPath == m_path.size() )
+        m_ui->aRedo->setEnabled( false );
+    else
+        m_ui->aRedo->setEnabled( true );
+    if( m_showFlag )
+    {
+        m_ui->aShowAll->setEnabled( false );
+        if( !m_path.isEmpty() )
+            m_ui->aClearAll->setEnabled( true );
+    }
+    else
+    {
+        m_ui->aShowAll->setEnabled( true );
+        m_ui->aClearAll->setEnabled( false );
+    }
 }

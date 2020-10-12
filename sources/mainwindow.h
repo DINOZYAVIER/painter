@@ -17,6 +17,8 @@ public:
     MainWindow( QWidget *parent = nullptr );
     ~MainWindow();
 
+    void checkActions();
+
 public Q_SLOTS:
     void onOpenImage();
     void onSaveImage();
