@@ -27,11 +27,20 @@ MainWindow::MainWindow( QWidget *parent )
     connect( m_ui->aClearAll, &QAction::triggered, this, &MainWindow::onClearAll );
     connect( m_ui->aShowAll, &QAction::triggered, this, &MainWindow::onShowAll );
 
-    connect( m_ui->aBlack, &QAction::triggered, this, &MainWindow::onColorChanged );
-    connect( m_ui->aWhite, &QAction::triggered, this, &MainWindow::onColorChanged );
-    connect( m_ui->aRed, &QAction::triggered, this, &MainWindow::onColorChanged );
-    connect( m_ui->aGreen, &QAction::triggered, this, &MainWindow::onColorChanged );
-    connect( m_ui->aBlue, &QAction::triggered, this, &MainWindow::onColorChanged );
+    m_penColorGroup = new QActionGroup( this );
+    m_penColorGroup->addAction( m_ui->aBlack );
+    m_penColorGroup->addAction( m_ui->aWhite );
+    m_penColorGroup->addAction( m_ui->aRed );
+    m_penColorGroup->addAction( m_ui->aGreen );
+    m_penColorGroup->addAction( m_ui->aBlue );
+    m_ui->aBlack->setCheckable( true );
+    m_ui->aWhite->setCheckable( true );
+    m_ui->aRed->setCheckable( true );
+    m_ui->aGreen->setCheckable( true );
+    m_ui->aBlue->setCheckable( true );
+    m_ui->aBlack->setChecked( true );
+    m_penColorGroup->setExclusive( true );
+    connect( m_penColorGroup, &QActionGroup::triggered, this, &MainWindow::onColorChanged );
 
     m_ui->paintLabel->setAlignment( Qt::AlignLeft );
     m_ui->aUndo->setEnabled( false );
@@ -77,7 +86,7 @@ void MainWindow::onAboutQtClicked()
 
 void MainWindow::onColorChanged()
 {
-    QObject* colorAddress = sender();
+    QAction* colorAddress = m_penColorGroup->checkedAction();
     if( colorAddress == m_ui->aBlack )
     {
         qDebug() << "Changed current color to black";
@@ -190,5 +199,4 @@ void MainWindow::paintEvent( QPaintEvent* event )
             painter.drawPath( m_path.at( i ) );
     }
     m_ui->paintLabel->setPixmap( m_pixmap );
-
 }

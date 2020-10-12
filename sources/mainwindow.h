@@ -7,6 +7,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class QActionGroup;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -37,7 +39,8 @@ private:
     QString                m_filename;
     QPixmap                m_pixmap;
     QColor                 m_color;
-    QVector<QPainterPath> m_path;
+    QVector<QPainterPath>  m_path;
+    QActionGroup*          m_penColorGroup;
     bool                   m_showFlag;
     int                    m_currentPath;
 };

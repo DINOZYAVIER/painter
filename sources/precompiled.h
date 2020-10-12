@@ -15,6 +15,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QMouseEvent>
+#include <QActionGroup>
 #endif
 
 #endif // PRECOMPILED_H
